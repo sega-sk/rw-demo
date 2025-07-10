@@ -1,0 +1,14 @@
+/*    /index.html   200
+
+# Handle product detail routes
+/catalog/:productType/:slug    /index.html   200
+
+# Handle memorabilia and merchandise routes
+/memorabilia/*    /index.html   200
+/merchandise/*    /index.html   200
+
+# Handle admin routes
+/admin/*    /index.html   200
+
+# Handle all other routes
+/*    /index.html   200
