@@ -8,7 +8,8 @@ import {
   Star, 
   ShoppingBag, 
   List,
-  User
+  User,
+  Users
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import OptimizedImage from '../UI/OptimizedImage';
@@ -21,6 +22,7 @@ const navigation = [
   { name: 'Memorabilia', href: '/admin/memorabilia', icon: Star },
   { name: 'Merchandise', href: '/admin/merchandise', icon: ShoppingBag },
   { name: 'Profile', href: '/admin/profile', icon: User },
+  { name: 'Users', href: '/admin/users', icon: Users, adminOnly: true },
 ];
 
 // Movie/Comics themed background elements
@@ -41,7 +43,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ className = '', onClose }: SidebarProps) {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const [currentElements, setCurrentElements] = useState(backgroundElements.slice(0, 4));
 
   // Animate background elements every 10 seconds
@@ -56,6 +58,13 @@ export default function Sidebar({ className = '', onClose }: SidebarProps) {
     return () => clearInterval(interval);
   }, []);
 
+  // Filter navigation items based on user role
+  const filteredNavigation = navigation.filter(item => {
+    if (item.adminOnly) {
+      return user?.role === 'admin';
+    }
+    return true;
+  });
   return (
     <div className={`flex h-full w-64 flex-col bg-white border-r border-gray-200 relative overflow-hidden ${className}`}>
       {/* Animated Background Elements */}
@@ -101,7 +110,7 @@ export default function Sidebar({ className = '', onClose }: SidebarProps) {
 
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-1 relative z-10">
-        {navigation.map((item, index) => (
+        {filteredNavigation.map((item, index) => (
           <div key={item.name}>
             <NavLink
               to={item.href}
@@ -123,8 +132,8 @@ export default function Sidebar({ className = '', onClose }: SidebarProps) {
             {item.name === 'Merchandise' && (
               <div className="h-36"></div>
             )}
-            {/* Add logout button after Profile */}
-            {item.name === 'Profile' && (
+            {/* Add logout button after Users (or Profile if not admin) */}
+            {((item.name === 'Users' && user?.role === 'admin') || (item.name === 'Profile' && user?.role !== 'admin')) && (
               <button
                 onClick={logout}
                 className="group flex items-center px-3 py-2 mt-4 text-sm font-medium rounded-lg transition-colors text-red-600 hover:bg-red-50 hover:text-red-700 w-full"

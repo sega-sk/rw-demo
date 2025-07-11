@@ -296,6 +296,9 @@ body .bg-blue-400 {
   position: fixed;
   z-index: 999999999999999999999999;
 }
+.fixed.bg-black .absolute.bottom-4 {
+  position: fixed;
+}
 .fixed.bg-black ~ body {
   overflow: hidden;
 }

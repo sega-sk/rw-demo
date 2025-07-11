@@ -22,6 +22,7 @@ import ProductList from './pages/Products/ProductList';
 import MemorabiliaList from './pages/Memorabilia/MemorabiliaList';
 import MerchandiseList from './pages/Merchandise/MerchandiseList';
 import ProfilePage from './pages/Profile/ProfilePage';
+import UsersList from './pages/Users/UsersList';
 
 // Main website components
 import Homepage from './pages/Website/Homepage';
@@ -94,6 +95,12 @@ function App() {
             <Route path="/admin/profile" element={
               <ProtectedRoute>
                 <Layout title="Profile Settings" breadcrumb={['Dashboard', 'Profile']}><ProfilePage /></Layout>
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin/users" element={
+              <ProtectedRoute>
+                <Layout title="User Management" breadcrumb={['Dashboard', 'Users']}><UsersList /></Layout>
               </ProtectedRoute>
             } />
             
